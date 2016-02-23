@@ -3,6 +3,9 @@ package lian.artyom.dao;
 import lian.artyom.Action;
 import lian.artyom.dao.exception.NoActionException;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -10,6 +13,9 @@ import java.util.Date;
  * Created by dodler on 23/02/16.
  */
 public class Task {
+
+    private int id;
+
     /**
      * task status
      * if true, task is active
@@ -35,11 +41,6 @@ public class Task {
     private boolean alarm; // not sure about alarm implementation
 
     public Task(){
-        this.status = false;
-        this.time = new Date();
-        this.action = null;
-        this.comment = "";
-        this.alarm = false;
     }
 
     public Task(boolean status,
@@ -101,5 +102,13 @@ public class Task {
         }
 
         action.action();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

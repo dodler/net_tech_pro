@@ -25,10 +25,20 @@ public class TasksDAO {
         Transaction tx = null;
 
         try{
-            Task task = new Task(true, new Date(System.currentTimeMillis()), null, "test task", false);
-            session.save(task);
+            tx = session.beginTransaction();
+            Task task = new Task(true, new Date(System.currentTimeMillis()), null, String.valueOf(System.currentTimeMillis()), false);
+            taskId = (Integer)session.save(task);
+
+            tx.commit();
         }catch(HibernateException he){
             he.printStackTrace();
+            if (tx != null) {
+                tx.rollback();
+            }
         }
+        finally{
+            session.close();
+        }
+        return taskId;
     }
 }
