@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="lian.artyom.dao.Task" table="Task">
+        <meta attribute="class-description">
+            This class contains the task details.
+        </meta>
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="status" column="status" type="boolean"/>
+        <property name="time" column="time" type="date"/>
+        <property name="action" column="action" type="int"/>
+        <property name="comment" column="commentary" type="string"/>
+        <property name="alarm" column="alarm" type="boolean"/>
+    </class>
+</hibernate-mapping>
