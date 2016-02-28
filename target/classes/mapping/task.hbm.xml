@@ -4,17 +4,27 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="lian.artyom.dao.Task" table="Task">
+    <class name="lian.artyom.dao.pojo.Task" table="task">
         <meta attribute="class-description">
             This class contains the task details.
         </meta>
         <id name="id" type="int" column="id" >
             <generator class="increment"/>
         </id>
+
+        <list name="parameters" cascade="all">
+            <key column="task_id"/>
+            <list-index column="idx"/>
+            <one-to-many class="lian.artyom.dao.pojo.Parameter"/>
+        </list>
+
         <property name="status" column="status" type="boolean"/>
         <property name="time" column="time" type="date"/>
-        <property name="action" column="action" type="int"/>
+
+        <many-to-one name="action" column="action" class="lian.artyom.dao.pojo.Action" cascade="all" lazy="false"/>
+
         <property name="comment" column="commentary" type="string"/>
         <property name="alarm" column="alarm" type="boolean"/>
     </class>
+
 </hibernate-mapping>

@@ -3,7 +3,12 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
+
     <session-factory>
+        <property name="show_sql">true</property>
+        <!--<property name="format_sql">true</property>-->
+        <!--<property name="use_sql_comments">true</property>-->
+
         <property name="hibernate.dialect">
             org.hibernate.dialect.PostgreSQLDialect
         </property>
@@ -13,7 +18,7 @@
 
         <!-- Assume test is the database name -->
         <property name="hibernate.connection.url">
-            jdbc:postgresql://localhost/net_tech_pro
+            jdbc:postgresql://localhost/postgres
         </property>
         <property name="hibernate.connection.username">
             dodler
@@ -25,6 +30,7 @@
         <!-- List of XML mapping files -->
         <mapping resource="mapping/task.hbm.xml"/>
         <mapping resource="mapping/action.hbm.xml"/>
+        <mapping resource="mapping/param.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -1,18 +1,17 @@
-package lian.artyom.dao;
+package lian.artyom.dao.pojo;
 
-import lian.artyom.Action;
 import lian.artyom.dao.exception.NoActionException;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
+import java.util.List;
 
 /**
  * simple POJO object
  * Created by dodler on 23/02/16.
  */
 public class Task {
+
+    private List parameters;
 
     private int id;
 
@@ -28,7 +27,7 @@ public class Task {
     private Date time;
     /**
      * action to perform in task
-     * should implement {@link lian.artyom.Action}
+     * should implement {@link Action}
      */
     private Action action;
     /**
@@ -54,6 +53,24 @@ public class Task {
         this.action = action;
         this.comment = comment;
         this.alarm = alarm;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder("Task ");
+        builder.append("isActive=[");
+        builder.append(status);
+        builder.append("], scheduledTime=[");
+        builder.append(time);
+        builder.append("], action=[");
+        builder.append(action); // TODO make action descriptable
+        builder.append("], comment=[");
+        builder.append(comment);
+        builder.append("], isAlarmed=[");
+        builder.append(alarm);
+        builder.append("].");
+
+        return builder.toString();
     }
 
     public boolean isStatus() {
@@ -110,5 +127,13 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List parameters) {
+        this.parameters = parameters;
     }
 }

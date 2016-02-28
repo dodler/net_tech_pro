@@ -11,4 +11,5 @@ public interface TaskScheduler {
     void scheduleNewTask();
     void rescheduleExistingTask();
     void removeObsoleteTask();
+    void performTask();
 }

@@ -4,11 +4,13 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="lian.artyom.Action" table="Action">
+    <class name="lian.artyom.dao.pojo.Action" table="action">
         <meta attribute="class-description">
             This class contains the task details.
         </meta>
-        <id name="id" type="int" column="id"/>
+        <id name="id" type="int" column="id" >
+            <generator class="increment"/>
+        </id>
         <property name="classPath" column="class_path" type="string"/>
     </class>
 </hibernate-mapping>

@@ -1,4 +1,6 @@
-package lian.artyom;
+package lian.artyom.dao.pojo;
+
+import lian.artyom.scheduler.action.TaskAction;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -7,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
  * implementation will be kept in impl package
  * Action class that implements current interface will be set in
  * database, and loaded using reflection api
+ * spaghetti planning in action
+ * this should be POJO object, but it's not in pojo package
  * Created by dodler on 23/02/16.
  */
 public class Action {
@@ -15,32 +19,28 @@ public class Action {
     private int id;
 
     public Action(){
-        this.classPath = "";
-        this.id = 0;
     }
 
-    public Action(String classPath, int id){
+    public Action(String classPath){
         this.classPath = classPath;
-        this.id = id;
     }
 
     public void action() throws Exception {
+
+        System.out.println(classPath);
+
         if ("".equals(classPath)){
             // no action is requried
+            
             return;
         }else{
             try {
                 Class actionClass = Class.forName(classPath);
-                if (actionClass.isAssignableFrom(this.getClass())){
-                    actionClass.getDeclaredMethod("action").invoke(this);
-                }
+
+                TaskAction ta = (TaskAction) actionClass.newInstance();
+                ta.perform();
+
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                throw e;
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-                throw e;
-            } catch (NoSuchMethodException e) {
                 e.printStackTrace();
                 throw e;
             } catch (IllegalAccessException e) {
