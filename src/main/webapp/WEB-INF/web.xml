@@ -5,6 +5,37 @@
          version="3.0">
 
     <welcome-file-list>
-        <welcome-file>/net_tech_pro/index.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+
+    <!-- db tool mapping -->
+    <servlet>
+        <servlet-name>foo.jsp</servlet-name>
+        <jsp-file>/pages/db.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>foo.jsp</servlet-name>
+        <url-pattern>/db</url-pattern>
+    </servlet-mapping>
+
+    <!-- new task page mapping -->
+    <servlet>
+        <servlet-name>new.jsp</servlet-name>
+        <jsp-file>/pages/createTask.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>new.jsp</servlet-name>
+        <url-pattern>/new</url-pattern>
+    </servlet-mapping>
+
+    <!-- list all tasks-->
+    <servlet>
+        <servlet-name>all.jsp</servlet-name>
+        <jsp-file>/pages/getAllTasks.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>all.jsp</servlet-name>
+        <url-pattern>/all</url-pattern>
+    </servlet-mapping>
+
 </web-app>

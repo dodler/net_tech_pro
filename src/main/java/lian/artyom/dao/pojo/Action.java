@@ -15,13 +15,15 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class Action {
 
+    private String name;
     private String classPath;
     private int id;
 
     public Action(){
     }
 
-    public Action(String classPath){
+    public Action(String name, String classPath){
+        this.name = name;
         this.classPath = classPath;
     }
 
@@ -65,5 +67,13 @@ public class Action {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

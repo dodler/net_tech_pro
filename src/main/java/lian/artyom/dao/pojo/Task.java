@@ -39,15 +39,20 @@ public class Task {
      */
     private boolean alarm; // not sure about alarm implementation
 
+    private String name;
+
     public Task(){
     }
 
-    public Task(boolean status,
+    public Task(
+            String name,
+            boolean status,
                 Date time,
                 Action action,
                 String comment,
                 boolean alarm){
 
+        this.name = name;
         this.status = status;
         this.time = time;
         this.action = action;
@@ -135,5 +140,13 @@ public class Task {
 
     public void setParameters(List parameters) {
         this.parameters = parameters;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

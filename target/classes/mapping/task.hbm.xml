@@ -12,6 +12,8 @@
             <generator class="increment"/>
         </id>
 
+        <property name="name" type="string" column="name"  />
+
         <list name="parameters" cascade="all">
             <key column="task_id"/>
             <list-index column="idx"/>
