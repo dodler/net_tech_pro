@@ -1,5 +1,6 @@
 package lian.artyom.dao;
 
+import org.jetbrains.annotations.NotNull;
 import lian.artyom.dao.pojo.Action;
 import lian.artyom.dao.pojo.Task;
 
@@ -28,9 +29,17 @@ public interface TasksDAO {
                    String comment,
                    boolean alarm);
 
-    Task getTask(int id);
+    void modifyTask(@NotNull int id,
+                    String name,
+                    boolean status,
+                    Date time,
+                    int actionId,
+                    String comment,
+                    boolean alarm);
+
+    Task getTask(@NotNull int id);
     List<Task> getAllTasks();
 
-    Action getAction(int id);
+    Action getAction(@NotNull int id);
     List<Action> getAllActions();
 }

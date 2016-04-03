@@ -8,9 +8,17 @@
 <%@ page import="java.sql.Date" %>
 <%@ page import="java.lang.Boolean" %>
 <%@ page import="java.lang.Integer" %>
+<%@ page import="lian.artyom.dao.pojo.Task" %>
 
     <html>
     <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Modifying task</title>
+        <link rel="stylesheet" href="css/foundation.css">
+        <link rel="stylesheet" href="css/app.css">
 
     <%
         TasksDAO dao = new TasksDAOImpl();
@@ -19,11 +27,11 @@
                         time = request.getParameter("time"),
                         action = request.getParameter("action"),
                         comment = request.getParameter("comment"),
-                        alarm = request.getParameter("alarm");
+                        alarm = request.getParameter("alarm"),
+                        id = request.getParameter("id");
 
-        List<Action> actions = dao.getAllActions();
-        if (name != null){
-            out.println("<p>New task was successfully created and scheduled");
+        if (id != null && name != null){
+            out.println("<p>Task was updated. New parameters:");
             out.println("<p>Task name:" + name + "</p>");
             out.println("<p>Current task status:" + status + "</p>");
             out.println("<p>Task action:" + action + "</p>");
@@ -33,7 +41,7 @@
 
             int taskId = 0;
             try{
-            taskId = dao.createTask(name, Boolean.valueOf(status), new java.util.Date(Date.valueOf(time).getTime()),
+            dao.modifyTask(Integer.valueOf(id), name, Boolean.valueOf(status), new java.util.Date(Date.valueOf(time).getTime()),
              Integer.valueOf(action), comment, Boolean.valueOf(alarm));
              }catch(Throwable e){
                 e.printStackTrace(response.getWriter());
@@ -49,20 +57,31 @@
     <body>
 
     <%
-        if (name == null){
-            out.println("<h1>Create and schedule new task</h1>");
-            out.println("<form action=\'new\' method=\'POST\'>");
-            out.println("<p><textarea name=\'name\'>");
-            out.println("</textarea></p>");
+        if (id != null){
+            Task task = dao.getTask(Integer.valueOf(id));
+            List<Action> actions = dao.getAllActions();
+            Action taskAction = task.getAction();
+    %>
+        <h1>Modify existing task.</h1>
+        <form action='modifyTask.jsp' method='GET' id='modify'>
 
-            out.println("<p>Active?<input type=\'checkbox\' name=\'status\'>");
+        <p><textarea name='name'><%out.println(task.getName());%></textarea></p>
+        <p><input name='id' hidden value=<% out.print("\'" + id + "\'"); %> />
+
+    <%
+
+            if (!task.isStatus()){
+                out.println("<p>Active?<input type=\'checkbox\' name=\'status\'>");
+            }else{
+                out.println("<p>Active?<input type=\'checkbox\' name=\'status\' checked=\'checked\' >");
+            }
             out.println("</input></p>");
 
             out.println("<p>End time<input type=\"date\" name=\'time\'>");
-            out.println("</imput></p>");
+            out.println("</input></p>");
 
             out.println("<p><select name=\'action\'>");
-            out.println("<option selected=\"SimpleAction\" >Select task action</option>");
+            out.println("<option selected=\' "+ taskAction.getName() + "\' >Select task action</option>");
             StringBuffer buffer = new StringBuffer();
             for(Action a:actions){
                 buffer.append("<option value=\"");
@@ -78,14 +97,22 @@
             out.println("</imput></p>");
 
             out.println("<p>Commentary<textarea name=\'comment\'>");
+            out.println(task.getComment());
             out.println("</textarea></p>");
 
-            out.println("<p>Alarm?<input type=\'checkbox\' name=\'alarm\'>");
+            if (!task.isAlarm()){
+                out.println("<p>Alarm?<input type=\'checkbox\' name=\'alarm\'>");
+            }else{
+                out.println("<p>Alarm?<input type=\'checkbox\' name=\'alarm\' checked=\'checked\'>");
+            }
             out.println("</imput></p>");
 
-            out.println("<p><input type=\'submit\' value=\'Submit\' />");
-            out.println("</form></p>");
-            out.println("</form>");
+            //out.println("<p><input type=\'submit\' value=\'Submit\' class=\'button\'/>");
+    %>
+            <a href='#' onclick="document.getElementById('modify').submit(); return false;" class='success button'>Save</a>
+            <a href='javascript:history.go(0)' class='alert button'>Discard</a>
+            </form>
+    <%
         }
     %>
 

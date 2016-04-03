@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,11 +80,26 @@ public class TasksDAOImpl implements TasksDAO {
     }
 
     @Override
-    public int createAction(String name, String classPath) {
+    public int createAction(final String name, final String classPath) {
+        final Session session = sessionFactory.openSession();
+
+        final Action action = new Action(name,classPath);
+
+        final Transaction tx= session.beginTransaction();
+        try{
+            final int actionId = (Integer)session.save(action);
+            tx.commit();
+        }catch(HibernateException he){
+            he.printStackTrace();
+            if (tx != null){
+                tx.rollback();
+            }
+        }finally{
+            session.close();
+        }
         return 0;
     }
 
-    // TODO add nullable from guava
     @Override
     public int createTask(String name, boolean status, Date time, Action action, String comment, boolean alarm) {
         Session session = sessionFactory.openSession();
@@ -116,6 +132,27 @@ public class TasksDAOImpl implements TasksDAO {
         return createTask(name, status, time, action, comment, alarm);
     }
 
+    @Override
+    public void modifyTask(@NotNull int id, String name, boolean status, Date time, @NotNull int actionId, String comment, boolean alarm) {
+        Task task = getTask(id);
+
+        Session session = sessionFactory.openSession();
+        if (task == null){
+            return;
+        }
+        task.setName(name);
+        task.setStatus(status);
+        task.setTime(time);
+        task.setAction(getAction(actionId));
+        task.setComment(comment);
+        task.setAlarm(alarm);
+
+        Transaction tx = session.beginTransaction();
+        session.update(task);
+        tx.commit();
+        session.close();
+    }
+
     /**
      * @param id of task in db
      * @return null if id douesn't exist in db
@@ -133,7 +170,7 @@ public class TasksDAOImpl implements TasksDAO {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+        }finally {
             session.close();
         }
         return null;

@@ -21,6 +21,7 @@
     for(Task task:tasks){
         buffer.append("<p><a href=\"pages/task.jsp?id=" );
         buffer.append(task.getId());
+        buffer.append("&");
         buffer.append("sender=all \" />");
         buffer.append(task.getName());
         buffer.append("</p>");

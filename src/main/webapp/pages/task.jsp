@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task review</title>
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
 <body>
 
 <%@ page import="lian.artyom.dao.TasksDAO"%>
@@ -8,6 +18,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.lang.StringBuffer"%>
 
+<div class="row">
 
 <%
     TasksDAO tasksDao = new TasksDAOImpl();
@@ -17,9 +28,9 @@
     if(backUrl != null && !backUrl.isEmpty()){
         StringBuffer buffer = new StringBuffer();
         buffer.append("<p>");
-        buffer.append("<a href=\"");
+        buffer.append("<a href=\'");
         buffer.append(backUrl);
-        buffer.append("\">Back");
+        buffer.append("\' class=\'button\' >Back");
         buffer.append("</a></p>\n");
         out.println(buffer.toString());
     }
@@ -32,11 +43,19 @@
         buffer.append(task.toString());
         buffer.append("</p>");
 
+        buffer.append("\n");
+
+        buffer.append("<p><a href=\'modifyTask?id=");
+        buffer.append(task.getId());
+        buffer.append("\' class=\'button\'>modify</a></p>");
+
         out.println(buffer.toString());
     }else{
         out.println("Sorry, task id is not specified, request can't be handled. ");
     }
 %>
+
+</div>
 
 </body>
 </html>

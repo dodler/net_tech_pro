@@ -38,4 +38,22 @@
         <url-pattern>/all</url-pattern>
     </servlet-mapping>
 
+    <!-- modify task mapping-->
+    <servlet>
+        <servlet-name>
+            modifyTask
+        </servlet-name>
+        <jsp-file>
+            /pages/modifyTask.jsp
+        </jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            modifyTask
+        </servlet-name>
+        <url-pattern>
+            /modify
+        </url-pattern>
+    </servlet-mapping>
+
 </web-app>
