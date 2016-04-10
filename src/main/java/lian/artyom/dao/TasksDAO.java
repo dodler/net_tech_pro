@@ -11,35 +11,38 @@ import java.util.List;
  * Created by dodler on 28/02/16.
  */
 public interface TasksDAO {
-    int createAction();
-    int createTask();
+    Integer createAction();
+    Integer createTask();
 
-    int createAction(String name, String classPath);
-    int createTask(String name,
-                   boolean status,
+    Integer createAction(String name, String classPath);
+    Integer createTask(String name,
+                   Boolean status,
                    Date time,
                    Action action,
                    String comment,
-                   boolean alarm);
+                   Boolean alarm);
 
-    int createTask(String name,
-                   boolean status,
+    Integer createTask(String name,
+                   Boolean status,
                    Date time,
-                   int actionId,
+                   Integer actionId,
                    String comment,
-                   boolean alarm);
+                   Boolean alarm);
 
-    void modifyTask(@NotNull int id,
+    void modifyTask(@NotNull Integer id,
                     String name,
-                    boolean status,
+                    Boolean status,
                     Date time,
-                    int actionId,
+                    Integer actionId,
                     String comment,
-                    boolean alarm);
+                    Boolean alarm);
 
-    Task getTask(@NotNull int id);
+    Task getTask(@NotNull Integer id);
     List<Task> getAllTasks();
 
-    Action getAction(@NotNull int id);
+    Action getAction(@NotNull Integer id);
     List<Action> getAllActions();
+
+    void deleteTask(Integer id);
+    void deleteAction(Integer id);
 }

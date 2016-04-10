@@ -2,8 +2,6 @@ package lian.artyom.dao.pojo;
 
 import lian.artyom.scheduler.action.TaskAction;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * base class for task action
  * implementation will be kept in impl package
@@ -19,10 +17,10 @@ public class Action {
     private String classPath;
     private int id;
 
-    public Action(){
+    public Action() {
     }
 
-    public Action(String name, String classPath){
+    public Action(String name, String classPath) {
         this.name = name;
         this.classPath = classPath;
     }
@@ -31,11 +29,11 @@ public class Action {
 
         System.out.println(classPath);
 
-        if ("".equals(classPath)){
+        if ("".equals(classPath)) {
             // no action is requried
-            
+
             return;
-        }else{
+        } else {
             try {
                 Class actionClass = Class.forName(classPath);
 
@@ -53,12 +51,12 @@ public class Action {
         }
     }
 
-    public void setClassPath(String classPath){
-        this.classPath = classPath;
+    public String getClassPath() {
+        return this.classPath;
     }
 
-    public String getClassPath(){
-        return this.classPath;
+    public void setClassPath(String classPath) {
+        this.classPath = classPath;
     }
 
     public int getId() {

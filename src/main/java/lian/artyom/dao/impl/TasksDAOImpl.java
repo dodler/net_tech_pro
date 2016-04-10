@@ -27,14 +27,15 @@ public class TasksDAOImpl implements TasksDAO {
     }
 
     @Override
-    public int createAction(){
+    public Integer createAction(){
         final Session session = sessionFactory.openSession();
 
         final Action action = new Action("SimpleaAction","lian.artyom.scheduler.action.TaskAction.SimpleActionImpl");
 
         final Transaction tx= session.beginTransaction();
+        Integer actionId = null;
         try{
-            final int actionId = (Integer)session.save(action);
+            actionId = (Integer)session.save(action);
             tx.commit();
         }catch(HibernateException he){
             he.printStackTrace();
@@ -44,13 +45,13 @@ public class TasksDAOImpl implements TasksDAO {
         }finally{
             session.close();
         }
-        return 0;
+        return actionId;
     }
 
     @Override
-    public int createTask(){
+    public Integer createTask(){
         Session session = sessionFactory.openSession();
-        int taskId = 0;
+        Integer taskId = 0;
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -80,7 +81,7 @@ public class TasksDAOImpl implements TasksDAO {
     }
 
     @Override
-    public int createAction(final String name, final String classPath) {
+    public Integer createAction(final String name, final String classPath) {
         final Session session = sessionFactory.openSession();
 
         final Action action = new Action(name,classPath);
@@ -101,9 +102,9 @@ public class TasksDAOImpl implements TasksDAO {
     }
 
     @Override
-    public int createTask(String name, boolean status, Date time, Action action, String comment, boolean alarm) {
+    public Integer createTask(String name, Boolean status, Date time, Action action, String comment, Boolean alarm) {
         Session session = sessionFactory.openSession();
-        int taskId = 0;
+        Integer taskId = 0;
         Transaction tx = null;
         try{
             tx = session.beginTransaction();
@@ -119,6 +120,7 @@ public class TasksDAOImpl implements TasksDAO {
             if (tx != null) {
                 tx.rollback();
             }
+            return null;
         }
         finally{
             session.close();
@@ -127,13 +129,16 @@ public class TasksDAOImpl implements TasksDAO {
     }
 
     @Override
-    public int createTask(String name, boolean status, Date time, int actionId, String comment, boolean alarm) {
+    public Integer createTask(String name, Boolean status, Date time, Integer actionId, String comment, Boolean alarm) {
         Action action = getAction(actionId);
         return createTask(name, status, time, action, comment, alarm);
     }
 
     @Override
-    public void modifyTask(@NotNull int id, String name, boolean status, Date time, @NotNull int actionId, String comment, boolean alarm) {
+    public void modifyTask(@NotNull Integer id,
+                           String name, Boolean status, Date time,
+                           Integer actionId, String comment, Boolean alarm) {
+        if (id == null) return;
         Task task = getTask(id);
 
         Session session = sessionFactory.openSession();
@@ -141,11 +146,11 @@ public class TasksDAOImpl implements TasksDAO {
             return;
         }
         task.setName(name);
-        task.setStatus(status);
+        if (status != null) task.setStatus(status);
         task.setTime(time);
-        task.setAction(getAction(actionId));
+        if (actionId != null) task.setAction(getAction(actionId));
         task.setComment(comment);
-        task.setAlarm(alarm);
+        if (alarm != null) task.setAlarm(alarm);
 
         Transaction tx = session.beginTransaction();
         session.update(task);
@@ -158,7 +163,12 @@ public class TasksDAOImpl implements TasksDAO {
      * @return null if id douesn't exist in db
      */
     @Override
-    public Task getTask( int id) {
+    public Task getTask( Integer id) {
+
+        if (id == null){
+            return null;
+        }
+
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try{
@@ -182,7 +192,12 @@ public class TasksDAOImpl implements TasksDAO {
     }
 
     @Override
-    public Action getAction(int id) {
+    public Action getAction(Integer id) {
+
+        if (id  == null){
+            return null;
+        }
+
         Session session = sessionFactory.openSession();
         Transaction tx = null;
         try{
@@ -206,5 +221,40 @@ public class TasksDAOImpl implements TasksDAO {
     @Override
     public List<Action> getAllActions() {
         return sessionFactory.openSession().createCriteria(Action.class).list();
+    }
+
+    @Override
+    public void deleteTask(Integer id) {
+        if (id == null) return;
+
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        Task task = (Task) session.get(Task.class, id);
+        task.setAction(null);
+        session.update(task);
+        tx.commit();
+
+        tx = session.beginTransaction();
+
+        session.delete(task);
+        tx.commit();
+        session.close();
+    }
+
+    @Override
+    public void deleteAction(Integer id) {
+        if (id == null) return;
+
+        Action action = getAction(id);
+
+        if (action == null) return;
+
+        Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        session.delete(action);
+        tx.commit();
+        session.close();
     }
 }

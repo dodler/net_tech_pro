@@ -2,6 +2,8 @@ package lian.artyom.dao.pojo;
 
 import lian.artyom.dao.exception.NoActionException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -41,16 +43,16 @@ public class Task {
 
     private String name;
 
-    public Task(){
+    public Task() {
     }
 
     public Task(
             String name,
             boolean status,
-                Date time,
-                Action action,
-                String comment,
-                boolean alarm){
+            Date time,
+            Action action,
+            String comment,
+            boolean alarm) {
 
         this.name = name;
         this.status = status;
@@ -61,7 +63,7 @@ public class Task {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder builder = new StringBuilder("Task ");
         builder.append("isActive=[");
         builder.append(status);
@@ -91,6 +93,7 @@ public class Task {
     }
 
     public void setTime(Date time) {
+        if (time == null) return;
         this.time = time;
     }
 
@@ -103,10 +106,15 @@ public class Task {
     }
 
     public String getComment() {
+
+        if (comment.length() > COMMENT_MAX_LEN){
+            comment = comment.substring(0, COMMENT_MAX_LEN);
+        }
         return comment;
     }
 
     public void setComment(String comment) {
+        if (comment == null) return;
         this.comment = comment;
     }
 
@@ -119,7 +127,7 @@ public class Task {
     }
 
     public void performAction() throws Exception {
-        if (action == null){
+        if (action == null) {
             throw new NoActionException();
         }
 
@@ -146,7 +154,14 @@ public class Task {
         return name;
     }
 
+    private static final int NAME_MAX_LEN = 50;
+    private static final int COMMENT_MAX_LEN = 100;
+
     public void setName(String name) {
+        if (name == null) return;
+        if (name.length() > NAME_MAX_LEN){
+            name = name.substring(0, NAME_MAX_LEN);
+        }
         this.name = name;
     }
 }

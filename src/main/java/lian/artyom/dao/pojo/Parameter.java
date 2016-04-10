@@ -12,13 +12,13 @@ public class Parameter {
     private int id;
     private String value, key;
 
-    public Parameter(){
+    public Parameter() {
         this.value = key = "";
     }
 
-    public Parameter(String value, String key){
+    public Parameter(String value, String key) {
         this.value = value;
-        this.key= key;
+        this.key = key;
     }
 
     public String getValue() {

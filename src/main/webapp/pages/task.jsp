@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js" lang="en" dir="ltr">
 <head>
 
     <meta charset="utf-8">
@@ -18,22 +18,14 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.lang.StringBuffer"%>
 
+<a href='../index.jsp' class='button'>MAIN </a>
+
 <div class="row">
 
 <%
     TasksDAO tasksDao = new TasksDAOImpl();
 
     String taskId = request.getParameter("id"), backUrl=request.getParameter("sender");
-
-    if(backUrl != null && !backUrl.isEmpty()){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("<p>");
-        buffer.append("<a href=\'");
-        buffer.append(backUrl);
-        buffer.append("\' class=\'button\' >Back");
-        buffer.append("</a></p>\n");
-        out.println(buffer.toString());
-    }
 
     if (taskId != null){
         Task task = tasksDao.getTask(Integer.valueOf(taskId));
@@ -45,7 +37,7 @@
 
         buffer.append("\n");
 
-        buffer.append("<p><a href=\'modifyTask?id=");
+        buffer.append("<p><a href=\'modifyTask.jsp?id=");
         buffer.append(task.getId());
         buffer.append("\' class=\'button\'>modify</a></p>");
 

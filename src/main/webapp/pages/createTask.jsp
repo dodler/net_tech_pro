@@ -9,8 +9,21 @@
 <%@ page import="java.lang.Boolean" %>
 <%@ page import="java.lang.Integer" %>
 
-    <html>
+    <html class="no-js" lang="en" dir="ltr">
+
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Task manager for EE systems</title>
+        <link rel="stylesheet" href="css/foundation.css">
+        <link rel="stylesheet" href="css/app.css">
+    </head>
+    <body>
+
+    <a href='../index.jsp' class='button'>MAIN</a>
+
+    <div class='row'>
 
     <%
         TasksDAO dao = new TasksDAOImpl();
@@ -39,30 +52,26 @@
                 e.printStackTrace(response.getWriter());
                 out.println(e.getMessage());
              }
-            out.println("<meta http-equiv=\"refresh\" content=\"5\"; url=\"task.jsp?id=\"" + taskId+ "\" />");
 
         }
     %>
 
-    </head>
+            <h1 class='primary callout'>Create and schedule new task</h1>
+            <form action='execution/new.jsp' method='POST'>
 
-    <body>
+            <p><textarea name='name'></textarea></p>
 
+            <fieldset class='fieldset'><label>Active
+            <input type='checkbox' name='status' aria-describedby='activeDescription'>
+            </input></label>
+            <p class='help-text' id='activeDescription'>If task is active, it will be marked and alarmed</p>
+            </fieldset>
+
+            <p>End time<input type='date' name='time'>
+            </imput></p>
+            <p><select name='action'>
+            <option selected='SimpleAction' >Select task action</option>
     <%
-        if (name == null){
-            out.println("<h1>Create and schedule new task</h1>");
-            out.println("<form action=\'new\' method=\'POST\'>");
-            out.println("<p><textarea name=\'name\'>");
-            out.println("</textarea></p>");
-
-            out.println("<p>Active?<input type=\'checkbox\' name=\'status\'>");
-            out.println("</input></p>");
-
-            out.println("<p>End time<input type=\"date\" name=\'time\'>");
-            out.println("</imput></p>");
-
-            out.println("<p><select name=\'action\'>");
-            out.println("<option selected=\"SimpleAction\" >Select task action</option>");
             StringBuffer buffer = new StringBuffer();
             for(Action a:actions){
                 buffer.append("<option value=\"");
@@ -73,21 +82,21 @@
                 buffer.append("\n");
             }
             out.println(buffer.toString());
-            out.println("</select>");
-
-            out.println("</imput></p>");
-
-            out.println("<p>Commentary<textarea name=\'comment\'>");
-            out.println("</textarea></p>");
-
-            out.println("<p>Alarm?<input type=\'checkbox\' name=\'alarm\'>");
-            out.println("</imput></p>");
-
-            out.println("<p><input type=\'submit\' value=\'Submit\' />");
-            out.println("</form></p>");
-            out.println("</form>");
-        }
     %>
+            </select></imput></p>
+
+            <p>Commentary<textarea name='comment'></textarea></p>
+
+            <fieldset class='fieldset'>
+            <label>Alarm<input type='checkbox' name='alarm' aria-describedby='alarmDescription'>
+            <p class='help-text' id='alarmDescription'>On scheduled date a notification will be sent.</p>
+            </imput></label> </fieldset>
+
+            <p><input class='button' type='submit' value='Submit' />
+            </form></p>
+            </form>
+
+    </div>
 
     </body>
 
