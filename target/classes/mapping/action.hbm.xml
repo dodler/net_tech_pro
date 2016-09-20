@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="lian.artyom.dao.pojo.Action" table="action">
+    <class name="lyan.artyom.dao.pojo.Action" table="action">
         <meta attribute="class-description">
             This class contains the task details.
         </meta>

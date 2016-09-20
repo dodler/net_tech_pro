@@ -1,5 +1,3 @@
-import lian.artyom.tools.DbTool;
-
 /**
  * Created by dodler on 23/02/16.
  */
@@ -10,7 +8,7 @@ public class Test {
 //        final Task task = dao.getTask(id);
 //        task.performAction();
 
-        System.out.println(new DbTool().sendRequest("select * from task;"));
+//        System.out.println(new DbTool().sendRequest("select * from task;"));
 
     }
 }
